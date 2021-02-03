@@ -1,5 +1,4 @@
 import * as ActionTypes from './ActionTypes';
-import { DISHES } from '../shared/dishes';
 import { baseUrl } from '../shared/baseUrl';
 
 export const addComment = (comment) => ({
@@ -215,7 +214,7 @@ export const postFeedback = (feedback) => (dispatch) => {
         throw errmess;
     })
     .then(response => response.json())
-    .then(response => alert('Thank you for your feedback! ${JSON.stringify(response)}'))
+    .then(response => alert(`Thank you for your feedback! ${JSON.stringify(response)}`))
     .catch(error => { 
         console.log('Post feedback ', error.message);
         alert('Error posting your feedback\nError: '+ error.message);

@@ -1,3 +1,4 @@
+//eslint-disable-next-line
 import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle,
             Breadcrumb, BreadcrumbItem, Button, Modal, ModalHeader,
