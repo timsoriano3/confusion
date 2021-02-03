@@ -3,9 +3,10 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'r
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import { Fade, Stagger } from 'react-animation-components';
 
 
-function RenderLeader({leader}) {
+const RenderLeader = ({leader}) => {
     return(
         <Media>
             <Media left middle>
@@ -22,34 +23,33 @@ function RenderLeader({leader}) {
     );
 }
 
-function About(props) {
+const RenderLeaders = ({leaders, isLoading, errMess}) => {
 
-    const leaders = props.leaders.leaders.map((leader) => {
+    if (isLoading) {
+        return <Loading />;
+    }
+    else if (errMess) {
         return (
-            <div key={leader.id} className="mt-5">
-                <RenderLeader 
-                leader={leader} />
-            </div>
-        );
-    });
-
-    function RenderLeaders(){
-
-        if (props.leaders.isLoading) {
-            return <Loading />;
-        }
-        else if (props.leaders.errMess) {
-            return (
-                <h4>{props.leaders.errMess}</h4>
-            );
-        }
-        else return (
-            <Media list>
-                {leaders}
-            </Media>
+            <h4>{errMess}</h4>
         );
     }
+    else {
+        return (
+            <Stagger in>
+                {leaders.leaders.map((leader) => {
+                    return (
+                        <Fade in>
+                            <RenderLeader leader={leader} />
+                        </Fade>
+                    );
+                })}
+            </Stagger>
+        );
+    } 
+}
 
+
+function About(props) {
     return(
         <div className="container">
             <div className="row">
@@ -105,7 +105,10 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    <RenderLeaders />
+                    <RenderLeaders
+                    leaders={props.leaders}
+                    isLoading={props.leaderLoading}
+                    errMess={props.leaderErrMess} />
                 </div>
             </div>
         </div>
